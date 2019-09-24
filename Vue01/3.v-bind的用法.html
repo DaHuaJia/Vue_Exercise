@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>v-bind的用法</title>
+</head>
+<body>
+	<div id="app">
+		<input type="button" value="按钮1" title="{{ title }}"/>
+		<input type="button" value="按钮2" v-bind:title="title"/>
+		<input type="button" value="按钮3" :title="title + ' 我是后缀'"/>
+		<!--
+			v-bind是 vue中提供的用于绑定属性的指令
+			v-bind指令可以被简写成 ":"(英文冒号)
+			v-bind中可以写合法的JS表达式
+		-->
+		
+		<input type="button" value="按钮4" v-on:click="show"/>
+		<input type="button" value="按钮5" v-on:mousemove="show"/>
+		<input type="button" value="按钮6" @click="show"/>
+		<!--
+			v-on是Vue提供的事件绑定指令
+			v-on指令可以被简写成"@"
+		-->
+	</div>
+	
+	<script src="js/vue.js"></script>
+	<script type="text/javascript">
+		//Vue不建议我们直接操作DOM树
+		
+		var vm = new Vue({
+			el: "#app",
+			data:{
+				title: "我是一个title",
+			},
+			methods:{
+				//这是一个method属性中定义了当前Vue实例所有可用的方法
+				show: function(){
+					alert('Hello');
+				}
+			}
+		})
+	</script>
+</body>
+</html>

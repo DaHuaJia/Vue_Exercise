@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>v-cloak, v-text, v-html的用法</title>
+	<style type="text/css">
+		[v-cloak]{
+			display:none;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<!--使用v-cloak能够解决 插值表达式闪烁的问题(网速慢的时候)-->
+		<p v-cloak>====={{ msg }}=====</p>
+		<h4 v-text="msg">=====</h4>
+		<!--基于v-text的工作流程，所以v-text是没有闪烁问题的-->
+		<!--v-text会覆盖元素中原本的内容，但是插值表达式只会替换自己的占位符，
+			不会把整个元素的内容清空
+		-->
+		<div>{{ msg2 }}</div>
+		<div v-text="msg2"></div>
+		<div v-html="msg2"></div>
+		<!--
+			插值表达式和v-text都会把变量内容当做普通文本的形式输出
+			v-html会把变量内容当做 html格式输出
+		-->
+	</div>
+	
+	<!--引入外部文件-->
+	<script src="js/vue.js"></script>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el: "#app",
+			data:{
+				msg: "guomingde",
+				msg2: "<h2>我是一个H2标签</h2>",
+			},
+		})
+	</script>
+</body>
+</html>

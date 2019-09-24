@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Vue跑马灯</title>
+	<script src="js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<input type="button" value="动起来" v-on:click="dong"/>
+		<input type="button" value="停一下" v-on:click="ting"/>
+		
+		<h4>{{msg}}</h4>
+	</div>
+	
+	<!--
+		分析：
+		1，给按钮绑定点击事件  v-on
+		2,在按钮的事件处理函数中，写入相关的业务逻辑：拿到msg字符串，调用字符串截取函数substring()进行字符串的截取，
+		把第一个字截取出来，放到最后面
+		3，将2中的代码放到一个定时器中
+	-->
+	
+	<script type="text/javascript">
+		//注意：在vm实例中如果想要获取data中的数据，或者想要调用methods中的方法，必须通过this.xxx 来进行访问，该this表示vm实例
+		var start,end;
+		
+		var vm = new Vue({
+			el: "#app",
+			data: {
+				msg: "《科睿特软件集团股份有限公司》",
+				intervalID: null,
+			},
+			methods: {
+				dong(){
+					//console.log(this.msg);
+					if(this.intervalID !=null){
+						return ;
+					}
+					//定时器
+					vm.intervalID = setInterval(function(){
+						console.log(vm.msg);
+						start = vm.msg.substring(0,1);
+						end = vm.msg.substring(1);
+						vm.msg = end+start;
+					}, 400);//毫秒值
+					
+					//注意：vm实例会自动监听自己身上data中所有的数据的改变，只要数据一发生变化，就会自动把最新的数据同步到页面中去
+					//好处：程序员只需要考虑数据，无需考虑如何重新渲染到DOM页面
+					
+					
+					/* 不能采用this进行指向，因为该定时方法的反复调用会改变this的指向，
+					 * 可以采用 =>（箭头函数）处理this的问题。www.baidu.com
+					vm.intervalID = setInterval(function(){
+						console.log(this.msg);
+						start = this.msg.substring(0,1);
+						end = this.msg.substring(1);
+						this.msg = end+start;
+					}, 400);
+					*/
+				},
+				ting(){
+					clearInterval(this.intervalID);
+					this.intervalID = null;
+				}
+			}
+		})
+	</script>
+</body>
+</html>

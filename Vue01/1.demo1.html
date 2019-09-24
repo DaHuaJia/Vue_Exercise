@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>测试实例</title>
+	<script src="js/vue.js"></script>
+</head>
+<body>
+	<!--
+		在vue1.0中可以将el绑定在vue中
+		1.0之后被禁止这么做了
+	-->
+	<div id="app" class="apps">
+		<h1>site: {{site}}</h1>
+		<h2>url: {{url}}</h2>
+		<h3>{{details()}}</h3>
+	</div>
+	
+	<script type="text/javascript">
+		//定义一个Vue构造器
+		new Vue({
+			//可以使DOM元素的class(.)和id(#)
+			el:".apps",
+			//用于定于属性
+			data:{
+				site: "菜鸟教程",
+				url: "www.baidu.com",
+				alexa: "10000"
+			},
+			//用于定义函数
+			methods:{
+				details: function(){
+					return this.site + "学的不仅是技术，更是梦想！";
+				}
+			}
+		})
+	</script>
+</body>
+</html>

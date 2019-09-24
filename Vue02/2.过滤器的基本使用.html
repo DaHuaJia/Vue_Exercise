@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>过滤器的基本使用</title>
+	<script src="js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<p>{{ msg | msgFormat}}</p>
+		<p>{{ msg | msgFormat2('学习','+1')}}</p>
+		
+		<!-- 过滤器可以被多次调用-->
+		<p>{{ msg | msgFormat | msgFormat2('学习','+1')}}</p>
+		
+		<!--格式化时间-->
+		<p>{{ data | dateFormat('yyyy-MM-dd')}}</p>
+	</div>
+	<!--
+		所谓的全局过滤器，就是指所有的VM实例都共享的
+		私有过滤器定义在VM实例内部，仅限该实例使用
+		
+		过滤器调用的时候，采用就近原则，如果私有过滤器和全局过滤器名称一致，优先调用私有过滤器
+	-->
+	
+	<script type="text/javascript">
+		// 定义全局过滤器的语法
+		// Vue.filter('过滤器的名称', function(){});
+		
+		Vue.filter('msgFormat', function(data){
+			// 这种方法只会替换一个
+			/*return data.replace('学', '习');*/
+			// 字符串的 replace方法，第一个参数除了可以写字符串之外，还可以定义一个正则
+			return data.replace(/学/g, '习');
+		});
+		
+		Vue.filter('msgFormat2', function(data, arg, arg2){
+			// 这种方法只会替换一个
+			/*return data.replace('学', '习');*/
+			// 字符串的 replace方法，第一个参数除了可以写字符串之外，还可以定义一个正则
+			return data.replace(/大/g, arg+arg2);
+		});
+		
+		// 全局过滤器 进行时间的格式化
+		Vue.filter('dateFormat', function(dateStr){
+			// 根据给定的时间字符串，得到特定的时间
+			var dt = new Date(dateStr);
+			
+			// yyyy-MM-dd
+			var y = dt.getFullYear();
+			var m = dt.getMonth();
+			var d = dt.getDate();
+			//return y+'年'+m+'月'+d+'日';
+			
+			// 模板字符串  tab键上面，替换对应位置的变量  $表示占位符
+			return `${y}-${m}-${d}`;
+		});
+		
+		
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				msg: '江西理工大学应用科学学院',
+				data: 'Sat May 18 2019 10:05:06 GMT+0800 (中国标准时间)',
+			},
+			methods: {
+				
+			}, 
+			
+			// 定义私有过滤器
+			filters: {
+				// 过滤器名称: 处理函数
+				dateFormat: function(dateStr){
+					// 根据给定的时间字符串，得到特定的时间
+					var dt = new Date(dateStr);
+					
+					// yyyy-MM-dd
+					var y = dt.getFullYear();
+					//月份从0开始
+					var m = (dt.getMonth() + 1).toString().padStart(2, '0');
+					var d = dt.getDate().toString().padStart(2, '0');
+					//return y+'年'+m+'月'+d+'日';
+					
+					// 模板字符串  tab键上面，替换对应位置的变量  $表示占位符
+					return `${y}-${m}-${d}==`;
+				}
+			}
+		});
+		
+	</script>
+</body>
+</html>

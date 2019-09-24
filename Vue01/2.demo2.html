@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>计算属性</title>
+	<script src="js/vue.js"></script>
+</head>
+<body>
+	<div id="apps">
+		a = {{a}}, b = {{b}}, d = {{c}}
+		<span style='color:red;'>aaaaa</span> <br/>
+		Name = {{fullName}}
+	</div>
+	
+	<script type="text/javascript">
+		//定义一个Vue构造器
+		new Vue({
+			//可以使DOM元素的class(.)和id(#)
+			el:"#apps",
+			//用于定于属性
+			data:{
+				a: 1,
+				c: "<span style='color:red;'>aaaaa</span>",
+				firstName: 'Foo',
+				lastName: 'Bar',
+			},
+			//计算结果
+			computed:{
+				//数学计算
+				b: function (){
+					return this.a + 1;
+				},
+				//字符拼接
+				fullName: function(){
+					return this.firstName + ' ' + this.lastName;
+				},
+			}
+		})
+		
+	</script>
+</body>
+</html>

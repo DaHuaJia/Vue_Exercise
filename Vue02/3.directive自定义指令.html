@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>文本框自动获得焦点</title>
+	<script src="js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<!--
+			Vue中没有v-focus指令
+			v-focus 自定义指令，获取输入框焦点
+			@keyup.f2="fun" 输入框获取焦点时，按下F2执行fun方法
+			v-color 自定义指令，将字体颜色变成红色
+		-->
+		<input type="text" v-focus v-color="'blue'" @keyup.f2="fun" />
+		
+		<h3 v-fontweight="500">江西理工大学应用科学学院</h3>
+	</div>
+	
+	<script>
+		// 自定义全局按键修饰符   113为f2的键盘码
+		Vue.config.keyCodes.f2 = 113;
+		
+		/**
+		 *  和JS有关的操作，最好放在inserted中去执行，防止JS行为不生效
+		 *  和样式相关的操作，一般都可以在bind中去执行
+		 */
+		
+		/*
+		 * 使用 Vue.directive() 自定义全局指令 v-focus 
+		 * 其中，第一个参数为指令名称，在定义的时候，指令名称前面不需要加v- 前缀
+		 * 但是 在调用的时候，必须在指令名称前面加上 v- 前缀进行调用
+		 * 第二个参数是一个对象，在这个对象身上，有一些指令相关的函数
+		 * 这些函数可以在特定的阶段执行相关的操作
+		 * */
+		Vue.directive('focus',{
+			bind: function(el){ // 每当指令绑定到元素上的时候，执行这个bind函数，只执行一次
+				// 注意: 在每个函数中，第一个参数永远都是el，
+				// 在元素刚绑定了指令的时候，还没有插入到DOM中去，这个时候调用focus方法是没有用的
+				// 因为 一个元素只有在插入DOM之后才能获取焦点
+				el.focus();
+			},
+			inserted: function(el){ // 元素插入到DOM中的时候执行该函数，触发一次
+				el.focus();
+			},
+			updated: function(){ // 当VNode更新的时候会执行该函数，可能会触发多次
+				
+			}
+		});
+		
+		// 自定义指令 color 将字体颜色变成红色
+		Vue.directive('color',{
+			// 样式只需要通过指令绑定给了元素，不管这个元素有没有被插入到页面中去，这个元素肯定有了内联样式
+			// 将来元素肯定会显示到页面上，这个时候，浏览器的渲染引擎必然会解析样式，应用给这个元素
+			bind: function(el, binding){
+				//el.style.color = 'red';
+				el.style.color = binding.value;
+			},
+		});
+		
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				
+			},
+			methods: {
+				fun(){
+					console.log("111");
+				},
+			},
+			
+			// 自定义私有指令
+			directives: {
+				'fontweight': {
+					bind: function(el, binding){
+						el.style.fontWeight = binding.value;
+					},
+				},
+			},
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>简易计算器</title>
+	<script src="js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<input type="text" v-model="n1"/>
+		
+		<select v-model="opt">
+			<option value="+">+</option>
+			<option value="-">-</option>
+			<option value="*">*</option>
+			<option value="/">/</option>
+		</select>
+		
+		<input type="text" v-model="n2"/>
+		
+		<input type="button" value="=" v-on:click="calc"/>
+		
+		<input type="text" v-model="result"/>
+	</div>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el: "#app",
+			data: {
+				n1: 0,
+				n2: 0,
+				result: 0,
+				opt: '+',
+			},
+			methods: {
+				calc(){
+					/*switch(vm.opt){
+						case '+': 
+							vm.result = parseInt(vm.n1) + parseInt(vm.n2); break;
+						case '-':
+							vm.result = parseInt(vm.n1) - parseInt(vm.n2); break;
+						case '*':
+							vm.result = parseInt(vm.n1) * parseInt(vm.n2); break;
+						case '/':
+							vm.result = parseInt(vm.n1) / parseInt(vm.n2); break;
+					}*/
+					
+					var codeStr = 'parseInt(vm.n1) '+ vm.opt +' parseInt(vm.n2)';
+					//解析字符串，并执行其中的的 JavaScript 代码  不推荐使用eval()函数
+					this.result = eval(codeStr);
+				}
+			}
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>v-for注意事项</title>
+	<script src="js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<div>
+			<label>ID: <input type="text" v-model="id"/></label>
+			<label>Name: <input type="text" v-model="name"/></label>
+			<input type="button" value="添加" v-on:click="add"/>
+		</div>
+		
+		<!--
+			不设置key的情况下，选中checkbox 然后再添加数据，会导致选中值改变
+			原因是由于checkbox只记录了索引，当在开头插入数据时，会导致选中值变化
+		-->
+		<!--<p v-for="item in list">
+			<input type="checkbox">{{ item.id }} -----{{item.name}}
+		</p>-->
+		
+		<!--
+			注意： key属性只能使用number 或 string
+			注意：key在使用的使用的时候，必须使用v-bind数据绑定的形式 指定key值
+			在组件中使用 v-for的时候或者在一些特殊情况下，如果出现问题，必须使用唯一的字段作为key值
+		-->
+		<p v-for="item in list" v-bind:key="item.id">
+			<input type="checkbox">{{ item.id }} -----{{item.name}}
+		</p>
+		
+	</div>
+	
+	<script type="text/javascript">
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				id: '',
+				name: '',
+				list: [
+					{id: 1, name: '李斯'},
+					{id: 2, name: '赵高'},
+					{id: 3, name: '嬴政'},
+					{id: 4, name: '胡亥'},
+					{id: 5, name: '刘邦'},
+				],
+			},
+			methods: {
+				// 添加方法
+				add(){
+					this.list.unshift({
+						id: this.id, name: this.name
+					});
+				},
+			}
+		});
+	</script>
+</body>
+</html>

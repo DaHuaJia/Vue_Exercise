@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>事件修饰符</title>
+	<script src="js/vue.js"></script>
+	<style type="text/css">
+		.inner{
+			height:150px; background-color: dodgerblue;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		
+		<!--使用stop 阻止冒泡-->
+		<!--<div class="inner" @click="divFun">
+			<input type="button" value="点我" @click.stop="btnFun"/>
+		</div>-->
+		
+		<!--使用 prevent 阻止默认行为-->
+		<!--<a href="http://www.baidu.com" @click.prevent="linkFun">有问题，先百度</a>-->
+	
+		<!--使用capture实现捕获事件触发机制-->
+		<!--<div class="inner" @click.capture="divFun">
+			<input type="button" value="点我" @click="btnFun"/>
+		</div>-->
+		
+		<!--s使用 self 只有点击当前元素的时候才会触发事件处理函数-->
+		<!--<div class="inner" @click.self="divFun">
+			<input type="button" value="点我" @click="btnFun"/>
+		</div>-->
+		<!--
+			self 只会阻止自己身上的冒泡行为，并不会真正阻止冒泡行为
+		-->
+		
+		<!--使用once 只触发一次事件处理函数-->
+		<!--<a href="http://www.baidu.com" @click.prevent.once="linkFun">有问题，先百度</a>-->
+	</div>
+	
+	<script type="text/javascript">
+		var vm = new Vue({
+			el: '#app',
+			data: {},
+			methods: {
+				divFun(){
+					console.log("divFun");
+				},
+				btnFun(){
+					console.log("btnFun");
+				},
+				linkFun(){
+					console.log("linkFun");
+				}
+			}
+		});
+	</script>
+	<!--
+		事件修饰符：
+		stop 阻止冒泡
+		prevent 阻止默认事件
+		capture 添加事件监听器时使用事件捕获模式
+		self 只当事件在该元素本身（不是子元素）触发是回调
+		once 事件只触发一次
+	-->
+</body>
+</html>
